@@ -3,7 +3,6 @@ package com.cashi.technical.viewmodel.payment
 import com.cashi.technical.di.provider.DispatcherProvider
 import com.cashi.technical.model.Payment
 import com.cashi.technical.repository.PaymentsRepository
-import com.cashi.technical.util.NetworkMonitor
 import com.cashi.technical.validation.PaymentValidator
 import com.cashi.technical.viewmodel.payment.intents.PaymentIntent
 import com.cashi.technical.viewmodel.payment.state.PaymentUiState
@@ -12,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.net.ConnectException
+
 
 /**
 Created By: Pratham
@@ -21,8 +22,7 @@ Created By: Pratham
 //is from androidx.lifecylce.viewModel which is ONLY for Android.
 class PaymentsViewModel(
     private val paymentsRepository: PaymentsRepository,
-    private val dispatcher : DispatcherProvider,
-    private val networkMonitor: NetworkMonitor
+    private val dispatcher : DispatcherProvider
 ) {
     private val scope = CoroutineScope(dispatcher.io)
 
@@ -45,10 +45,6 @@ class PaymentsViewModel(
             _state.update { it.copy(message = error) }
             return
         }
-        if(!networkMonitor.isInternetAvailable()){
-            _state.update { it.copy(message = "Internet connection required to send payment.") }
-        }
-        else{
             scope.launch {
                 _state.update { it.copy(isLoading = true, message = null) }
                 try {
@@ -69,10 +65,13 @@ class PaymentsViewModel(
                         }
                     )
                     }
-                }catch (e : Exception){
+                }
+                catch (e : ConnectException){
+                    _state.update { it.copy(isLoading = false, message = "Internet connection required to send payment") }
+                }
+                catch (e : Exception){
                     _state.update { it.copy(isLoading = false, message = e.message) }
                 }
             }
-        }
     }
 }

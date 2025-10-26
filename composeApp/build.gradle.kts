@@ -19,13 +19,12 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            // Firebase
+
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.firestore)
 
             implementation(libs.androidx.navigation.compose)
 
-            // Koin Android extensions
             implementation(libs.koin.android)
 
             implementation(libs.ktor.client.core)
@@ -46,11 +45,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(projects.shared)
 
-            // Koin for dependency injection (optional but recommended)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
-            // Coroutines
             implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
