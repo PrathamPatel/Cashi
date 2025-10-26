@@ -26,7 +26,7 @@ val appModule = module {
     }
 
     single {
-        PaymentApi(client = get(), baseUrl = "http://10.0.2.2:8080")
+        PaymentApi(client = get(), baseUrl = "http://10.0.2.2:8080") //base url for android emulator
     }
 
     single<DispatcherProvider> { BaseDispatchersProvider() }

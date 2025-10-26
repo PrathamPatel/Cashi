@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
 Created By: Pratham
@@ -53,6 +56,6 @@ fun TransactionCard(
 
 @Composable
 private fun formatTimestamp(timestamp: Long): String {
-    val date = java.text.SimpleDateFormat("dd MMM yyyy, HH:mm").format(java.util.Date(timestamp))
+    val date = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(Date(timestamp))
     return date
 }
