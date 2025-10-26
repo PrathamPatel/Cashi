@@ -127,6 +127,7 @@ BUILD SUCCESSFUL in 1s
 Configuration cache entry reused.
 ```
 **UI tests:** To automate UI flow for sending a payment and navigating to transaction history:
+- I struggled to get Appium going, but instead, I wrote UI instrumented test to simulate the same behaviour
 - Ensure `ktor` server is running (see above number 3)
 - Ensure you have an Emulator running as well
 - From the **project root** folder, run:
