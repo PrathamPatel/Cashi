@@ -187,3 +187,6 @@ Attached is quick demo video of the app running in an Android Emulator. This sho
 - Validation messages for incorrect email and amount
 - Sending a payment and viewing the success message
 - Viewing transaction history and live update (manually added an entry on Firestore to simulate this)
+
+https://github.com/user-attachments/assets/24d98a08-9ec5-4ea5-a572-f74ab112da6d
+
