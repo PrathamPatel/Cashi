@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 /**
 Created By: Pratham
  */
+
+//We do not extend ViewModel() because this compiles to multiple targets (In real world scenario) and ViewModel
+//is from androidx.lifecylce.viewModel which is ONLY for Android.
 class PaymentsViewModel(
     private val paymentsRepository: PaymentsRepository,
     private val dispatcher : DispatcherProvider

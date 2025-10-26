@@ -23,17 +23,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cashi.technical.ui.components.CurrencyDropdown
 import com.cashi.technical.ui.components.InputField
 import com.cashi.technical.viewmodel.payment.PaymentsViewModel
 import com.cashi.technical.viewmodel.payment.intents.PaymentIntent
+import com.cashi.technical.viewmodel.payment.state.PaymentUiState
 import org.koin.compose.koinInject
 
 /**
 Created By: Pratham
  */
 
+//We don't create a wrapper for ViewModel as it is not necessary since Compose UI observes state flows
+//Lifecycle handling is minimal.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentScreen(
@@ -96,4 +100,76 @@ fun PaymentScreen(
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PaymentScreenContent(state : PaymentUiState){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Cashi Payment") },
+                actions = {
+                    TextButton(onClick = { } ) {
+                        Text("History")
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            InputField(
+                value = state.email,
+                onValueChange = {  },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
+                label = "Recipient Email"
+            )
+            Spacer(Modifier.height(8.dp))
+            InputField(
+                value = state.amount,
+                onValueChange = { },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                label = "Amount"
+            )
+            Spacer(Modifier.height(8.dp))
+            CurrencyDropdown(
+                selected = state.currency,
+                onSelect = { }
+            )
+            Spacer(Modifier.height(16.dp))
+
+            Button(
+                onClick = { },
+                enabled = !state.isLoading,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (state.isLoading) CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                else Text("Send Payment")
+            }
+
+            state.message?.let {
+                Spacer(Modifier.height(12.dp))
+                Text(it, color = MaterialTheme.colorScheme.primary)
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaymentScreenPreview() {
+    PaymentScreenContent(
+        state = PaymentUiState(
+            email = "preview@cashi.com",
+            amount = "100",
+            currency = "USD",
+            message = "Payment successful!"
+        )
+    )
 }
