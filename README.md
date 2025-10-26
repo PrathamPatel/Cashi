@@ -125,6 +125,11 @@ Configuration cache entry stored.
 BUILD SUCCESSFUL in 1s
 31 actionable tasks: 1 executed, 30 up-to-date
 Configuration cache entry reused.
+
+PaymentFlowSpec > Payment creation and transaction history > when a valid payment is made > com.cashi.technical.bdd.PaymentFlowSpec.should process successfully and show success message PASSED
+PaymentFlowSpec > Payment creation and transaction history > when a valid payment is made > com.cashi.technical.bdd.PaymentFlowSpec.should show the updated transaction history PASSED
+PaymentFlowSpec > Payment creation and transaction history > when the payment fails due to invalid email > com.cashi.technical.bdd.PaymentFlowSpec.should not process and return validation error PASSED
+PaymentFlowSpec > Payment creation and transaction history > when there is a network failure > com.cashi.technical.bdd.PaymentFlowSpec.should show an error message in the state PASSED
 ```
 **UI tests:** To automate UI flow for sending a payment and navigating to transaction history:
 - Ensure `ktor` server is running (see above number 3)
