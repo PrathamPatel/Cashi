@@ -1,5 +1,6 @@
 package com.cashi.technical.firebase.provider
 
+import com.cashi.technical.FIREBASE_COLLECTION
 import com.cashi.technical.firebase.FirebaseDataSource
 import com.cashi.technical.model.Payment
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +16,7 @@ actual object FirebaseProvider {
 class AndroidFirebaseDataSource : FirebaseDataSource{
 
     private val firestore = FirebaseFirestore.getInstance()
-    private val collection = firestore.collection("payments")
+    private val collection = firestore.collection(FIREBASE_COLLECTION)
 
     override suspend fun addPayment(payment: Payment) {
         collection.add(payment).await()
