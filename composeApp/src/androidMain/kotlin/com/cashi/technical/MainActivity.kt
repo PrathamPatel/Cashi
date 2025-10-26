@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
-
         setContent {
             AppNavigation()
         }

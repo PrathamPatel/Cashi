@@ -27,6 +27,7 @@ mockk = "1.14.6"
 navigationCompose = "2.9.5"
 spekDslJvm = "2.0.19"
 uiTestManifest = "1.9.4"
+annotationJvm = "1.9.1"
 
 [libraries]
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -73,6 +74,7 @@ koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spekDslJvm" }
+androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

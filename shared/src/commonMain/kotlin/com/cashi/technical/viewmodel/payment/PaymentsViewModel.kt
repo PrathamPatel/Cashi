@@ -3,6 +3,7 @@ package com.cashi.technical.viewmodel.payment
 import com.cashi.technical.di.provider.DispatcherProvider
 import com.cashi.technical.model.Payment
 import com.cashi.technical.repository.PaymentsRepository
+import com.cashi.technical.util.NetworkMonitor
 import com.cashi.technical.validation.PaymentValidator
 import com.cashi.technical.viewmodel.payment.intents.PaymentIntent
 import com.cashi.technical.viewmodel.payment.state.PaymentUiState
@@ -20,7 +21,8 @@ Created By: Pratham
 //is from androidx.lifecylce.viewModel which is ONLY for Android.
 class PaymentsViewModel(
     private val paymentsRepository: PaymentsRepository,
-    private val dispatcher : DispatcherProvider
+    private val dispatcher : DispatcherProvider,
+    private val networkMonitor: NetworkMonitor
 ) {
     private val scope = CoroutineScope(dispatcher.io)
 
@@ -43,29 +45,33 @@ class PaymentsViewModel(
             _state.update { it.copy(message = error) }
             return
         }
+        if(!networkMonitor.isInternetAvailable()){
+            _state.update { it.copy(message = "Internet connection required to send payment.") }
+        }
+        else{
+            scope.launch {
+                _state.update { it.copy(isLoading = true, message = null) }
+                try {
+                    val payment = Payment(
+                        recipientEmail = currentState.email,
+                        amount = currentState.amount.toDouble(),
+                        currency = currentState.currency
+                    )
 
-        scope.launch {
-            _state.update { it.copy(isLoading = true, message = null) }
-            try {
-                val payment = Payment(
-                    recipientEmail = currentState.email,
-                    amount = currentState.amount.toDouble(),
-                    currency = currentState.currency
-                )
-
-                val success = paymentsRepository.processPayment(payment)
-                _state.update { it.copy(
-                    isLoading = false,
-                    message = if(success){
-                        "Payment sent!"
+                    val success = paymentsRepository.processPayment(payment)
+                    _state.update { it.copy(
+                        isLoading = false,
+                        message = if(success){
+                            "Payment sent!"
+                        }
+                        else{
+                            "Failed to send payment"
+                        }
+                    )
                     }
-                    else{
-                        "Failed to send payment"
-                    }
-                )
+                }catch (e : Exception){
+                    _state.update { it.copy(isLoading = false, message = e.message) }
                 }
-            }catch (e : Exception){
-                _state.update { it.copy(isLoading = false, message = e.message) }
             }
         }
     }

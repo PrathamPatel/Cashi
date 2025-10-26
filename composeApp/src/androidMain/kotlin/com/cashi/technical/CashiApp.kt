@@ -2,6 +2,7 @@ package com.cashi.technical
 
 import android.app.Application
 import com.cashi.technical.di.appModule
+import com.cashi.technical.util.NetworkMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
