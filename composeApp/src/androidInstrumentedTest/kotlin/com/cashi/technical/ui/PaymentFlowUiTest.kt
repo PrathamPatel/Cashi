@@ -36,5 +36,6 @@ class PaymentFlowUiTest {
         }
 
         composableTestRule.onNodeWithText("500.25 USD").assertIsDisplayed()
+        Thread.sleep(3000)
     }
 }
